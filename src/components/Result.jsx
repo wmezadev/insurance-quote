@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -49,6 +50,13 @@ const Result = ({quotation}) => {
                 </QuotationResult>
             )
     );
+}
+
+Result.propTypes = {
+    quotation: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.object
+    ])
 }
  
 export default Result;
