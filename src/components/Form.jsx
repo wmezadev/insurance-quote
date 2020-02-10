@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styled from '@emotion/styled';
+import { getYearDifference, calculateBrand, getPlan } from '../helpers';
 
 const Field = styled.div`
     display: flex;
@@ -41,12 +42,23 @@ const Button = styled.button`
     }
 `;
 
+const Error = styled.div`
+    background-color: red;
+    color: white;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+`;
+
 const Form = () => {
     const [ data, setData ] = useState({
         brand: '', year: '', plan: ''
     });
 
-    const { brand, year, plan } = data;
+    let { brand, year, plan } = data;
+
+    const [error, setError] = useState(false);
 
     // Read data from the Form and set them on the state
     const getData = e => {
@@ -54,6 +66,32 @@ const Form = () => {
             ...data,
             [e.target.name]: e.target.value
         });
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault();
+
+        if(brand.trim() === '' || year.trim() === '' || plan.trim() === '') {
+            setError(true);
+            return;
+        }
+
+        setError(false);
+
+        let result = 2000;
+
+        let yearDifference = getYearDifference(year);
+        
+        result -= ((yearDifference* 3) * result) / 100;
+        
+        result = calculateBrand(brand) * result;
+        
+        const planIncrement = getPlan(plan);
+
+        result = parseFloat( planIncrement * result).toFixed(2);
+
+        console.log(result);
+        
     }
 
     const initBrands = [{ id: 1, value: 'american'}, { id: 2, value: 'european'}, { id: 3, value: 'asian'}];
@@ -65,7 +103,10 @@ const Form = () => {
     }
 
     return ( 
-        <form>
+        <form
+            onSubmit={handleSubmit}
+        >
+            { error ? <Error>All fields are required.</Error>: null}
             <Field>
                 <Label>Marca</Label>
                 <Select
@@ -75,7 +116,7 @@ const Form = () => {
                 >
                     <option value="">-- Seleccione --</option>
                     { initBrands.map( initBrand => (
-                        <option key={initBrand.id} value={initBrand.id}>{initBrand.value}</option>
+                        <option key={initBrand.id} value={initBrand.value}>{initBrand.value}</option>
                     )) }
                 </Select>
             </Field>
@@ -88,7 +129,7 @@ const Form = () => {
                 >
                     <option value="">-- Seleccione --</option>
                     { initYears.map( initYear => (
-                        <option key={initYear.id} value={initYear.id}>{initYear.value}</option>
+                        <option key={initYear.id} value={initYear.value}>{initYear.value}</option>
                     ))}
                 </Select>
             </Field>
@@ -98,8 +139,8 @@ const Form = () => {
                     <InputRadio 
                         type="radio"
                         name="plan"
-                        value="Basic"
-                        checked={plan === 'Basic'}
+                        value="basic"
+                        checked={plan === 'basic'}
                         onChange={getData}
                     /> Basic
                 </label>
@@ -107,13 +148,13 @@ const Form = () => {
                     <InputRadio 
                         type="radio"
                         name="plan"
-                        value="Complete"
-                        checked={plan === 'Complete'}
+                        value="complete"
+                        checked={plan === 'complete'}
                         onChange={getData}
                     /> Complete
                 </label>
             </Field>
-            <Button type="button">Submit</Button>
+            <Button type="submit">Submit</Button>
         </form>
      );
 }
