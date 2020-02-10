@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const Message = styled.p`
     background-color: rgb (127, 224, 237);
     margin-top: 2rem;
     padding: 1rem;
     text-align: center;
-    `
+`;
 
 const QuotationResult = styled.div`
     text-align: center;
@@ -15,15 +16,15 @@ const QuotationResult = styled.div`
     background-color: rgb (127, 224, 237);
     margin-top: 1rem;
     position: relative;
-`
+`;
 
-const TotalMessage = styled.p`
+const TotalMessage = styled.span`
     color: #00838F;
     padding: 1rem;
     text-transform: uppercase;
     font-weight: bold;
     margin: 0;
-`
+`;
 
 
 const Result = ({quotation}) => {
@@ -33,7 +34,18 @@ const Result = ({quotation}) => {
         : 
             (
                 <QuotationResult>
-                    <TotalMessage>Total: $ {quotation}</TotalMessage>
+                    <TransitionGroup
+                        component="span"
+                        className="result"
+                    >
+                        <CSSTransition
+                            classNames="result"
+                            key={quotation}
+                            timeout={{enter: 500, exit: 500}}
+                        >
+                            <TotalMessage>Total: $ {quotation}</TotalMessage>
+                        </CSSTransition>
+                    </TransitionGroup>
                 </QuotationResult>
             )
     );

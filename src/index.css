@@ -20,15 +20,15 @@ span.result {
   width: 100%;
 }
 
-.entry-result {
+.result-enter {
   transition: .5s;
 }
 
-.entry-result.entry-result-active{
+.result-enter.result-enter-active{
   transform: translateY(0%);
 }
 
-.exit-result{
+.result-exit{
   transform: translateY(0);
   transition: .5s;
   position : absolute;
@@ -37,7 +37,7 @@ span.result {
   right: 0;
 }
 
-.exit-result-active{
+.result-exit-active{
   opacity: 0;
   transform: translateY(-10%);
 }
