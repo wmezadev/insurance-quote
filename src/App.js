@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Form from './components/Form';
 import Resume from './components/Resume';
 import Result from './components/Result';
+import Spinner from './components/Spinner';
 
 const Container = styled.div`
   max-width: 600px;
@@ -25,6 +26,8 @@ function App() {
     }
   });
 
+  const [ loading, setLoading ] = useState(false);
+
   const { quotation, data } = resume;
   
   return (
@@ -35,6 +38,10 @@ function App() {
       <FormContainer>
         <Form
           setResume={setResume}
+          setLoading={setLoading}
+        />
+        <Spinner
+          loading={loading}
         />
         <Resume
           data={data}

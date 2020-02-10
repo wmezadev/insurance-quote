@@ -55,7 +55,7 @@ const Result = ({quotation}) => {
 Result.propTypes = {
     quotation: PropTypes.oneOfType([
         PropTypes.number,
-        PropTypes.object
+        PropTypes.string
     ])
 }
  

@@ -52,7 +52,7 @@ const Error = styled.div`
     margin-bottom: 2rem;
 `;
 
-const Form = ({setResume}) => {
+const Form = ({setResume, setLoading}) => {
     const [ data, setData ] = useState({
         brand: '', year: '', plan: ''
     });
@@ -91,10 +91,15 @@ const Form = ({setResume}) => {
 
         result = parseFloat( planIncrement * result).toFixed(2);
 
-        setResume({
-            quotation: result,
-            data
-        });
+        setLoading(true);
+
+        setTimeout(() => {
+            setResume({
+                quotation: result,
+                data
+            });
+            setLoading(false);
+        }, 3000);
         
     }
 
@@ -164,7 +169,8 @@ const Form = ({setResume}) => {
 }
 
 Form.propTypes = {
-    setResume: PropTypes.func.isRequired
+    setResume: PropTypes.func.isRequired,
+    setLoading: PropTypes.func.isRequired
 }
 
 export default Form;
