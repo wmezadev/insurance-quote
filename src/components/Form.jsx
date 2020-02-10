@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { getYearDifference, calculateBrand, getPlan } from '../helpers';
 
 const Field = styled.div`
@@ -51,7 +52,7 @@ const Error = styled.div`
     margin-bottom: 2rem;
 `;
 
-const Form = () => {
+const Form = ({setResume}) => {
     const [ data, setData ] = useState({
         brand: '', year: '', plan: ''
     });
@@ -90,7 +91,10 @@ const Form = () => {
 
         result = parseFloat( planIncrement * result).toFixed(2);
 
-        console.log(result);
+        setResume({
+            quotation: result,
+            data
+        });
         
     }
 
@@ -158,5 +162,9 @@ const Form = () => {
         </form>
      );
 }
- 
+
+Form.propTypes = {
+    setResume: PropTypes.func.isRequired
+}
+
 export default Form;
