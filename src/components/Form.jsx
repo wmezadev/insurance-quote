@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from '@emotion/styled';
 
 const Field = styled.div`
@@ -42,31 +42,53 @@ const Button = styled.button`
 `;
 
 const Form = () => {
-    const brands = ['american', 'european', 'asian'];
+    const [ data, setData ] = useState({
+        brand: '', year: '', plan: ''
+    });
 
-    let years = [];
+    const { brand, year, plan } = data;
+
+    // Read data from the Form and set them on the state
+    const getData = e => {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const initBrands = [{ id: 1, value: 'american'}, { id: 2, value: 'european'}, { id: 3, value: 'asian'}];
+        
+    let initYears = [];
     const currentYear = parseInt(new Date().getFullYear());
     for(let i = currentYear+2; i>=2012; i--){
-        years.push(i);
+        initYears.push({id: i, value: i});
     }
 
     return ( 
         <form>
             <Field>
                 <Label>Marca</Label>
-                <Select>
+                <Select
+                    name="brand"
+                    value={brand}
+                    onChange={getData}
+                >
                     <option value="">-- Seleccione --</option>
-                    { brands.map( brand => (
-                        <option value={brand}>{brand}</option>
+                    { initBrands.map( initBrand => (
+                        <option key={initBrand.id} value={initBrand.id}>{initBrand.value}</option>
                     )) }
                 </Select>
             </Field>
             <Field>
                 <Label>Year</Label>
-                <Select>
+                <Select
+                    name="year"
+                    value={year}
+                    onChange={getData}
+                >
                     <option value="">-- Seleccione --</option>
-                    { years.map( year => (
-                        <option value={year}>{year}</option>
+                    { initYears.map( initYear => (
+                        <option key={initYear.id} value={initYear.id}>{initYear.value}</option>
                     ))}
                 </Select>
             </Field>
@@ -77,6 +99,8 @@ const Form = () => {
                         type="radio"
                         name="plan"
                         value="Basic"
+                        checked={plan === 'Basic'}
+                        onChange={getData}
                     /> Basic
                 </label>
                 <label>
@@ -84,6 +108,8 @@ const Form = () => {
                         type="radio"
                         name="plan"
                         value="Complete"
+                        checked={plan === 'Complete'}
+                        onChange={getData}
                     /> Complete
                 </label>
             </Field>
