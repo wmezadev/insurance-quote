@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import Header from './components/Header';
 import Form from './components/Form';
 import Resume from './components/Resume';
+import Result from './components/Result';
 
 const Container = styled.div`
   max-width: 600px;
@@ -24,7 +25,7 @@ function App() {
     }
   });
 
-  const { data } = resume;
+  const { quotation, data } = resume;
   
   return (
     <Container>
@@ -37,6 +38,9 @@ function App() {
         />
         <Resume
           data={data}
+        />
+        <Result
+          quotation={quotation}
         />
       </FormContainer>
     </Container>
